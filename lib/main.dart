@@ -1,9 +1,16 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:notesapp/providers/providers.dart';
+import 'package:flutter/services.dart';
+import 'package:notesapp/screen/home_page/home.dart';
+import 'package:notesapp/widgets/page_transition.dart';
+import 'package:notesapp/widgets/splash_screen.dart';
 
-main() => runApp(MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(MyApp());
+  });
+}
 
 class MyApp extends StatefulWidget {
   @override
@@ -15,51 +22,32 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: SplashPage(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
+class SplashPage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _SplashPageState createState() => _SplashPageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  List albums = [];
-
-  getDataAlbums() {
-    Providers.getAlbums().then((value) {
-      List data = jsonDecode(jsonEncode(value.data));
-      for (var i = 0; i < data.length; i++) {
-        setState(() {
-          albums.add(data[i]);
-        });
-      }
-    });
-  }
-
+class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    getDataAlbums();
+    new Future.delayed(const Duration(seconds: 4),
+        () => Navigator.of(context).pushReplacement(createRoute(HomePage())));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold( 
-      appBar: AppBar(
-        title: Text("wayahe"),
-      ),
+    var screenSize = MediaQuery.of(context).size;
+    return Scaffold(
       body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: ListView.builder(
-            itemCount: albums.length,
-            itemBuilder: (context, i) => ListTile(
-                  title: Text(albums[i]['content']),
-                )),
-      ),
+          width: screenSize.width,
+          height: screenSize.height,
+          child: splashSreen(context)),
     );
   }
 }
