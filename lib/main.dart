@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:notesapp/screen/notes_page/notes_page.dart';
+import 'package:notesapp/screen/home_page/home_page.dart';
 import 'package:notesapp/widgets/page_transition.dart';
 import 'package:notesapp/widgets/splash_screen.dart';
 
@@ -39,7 +39,7 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     new Future.delayed(const Duration(seconds: 4),
-        () => Navigator.of(context).pushReplacement(createRoute(NotesPage())));
+        () => Navigator.of(context).pushReplacement(createRoute(HomePage())));
   }
 
   @override

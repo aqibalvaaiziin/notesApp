@@ -48,7 +48,7 @@ splashSreen(BuildContext context) {
           width: screenSize.width,
           child: Center(
             child: Text(
-              "Dont forget to take your note",
+              "Forget your pen take this note",
               style: TextStyle(
                 fontSize: 15,
                 fontFamily: "D",
