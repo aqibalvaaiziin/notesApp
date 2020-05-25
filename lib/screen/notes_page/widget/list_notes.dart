@@ -8,10 +8,11 @@ class NotesList extends StatefulWidget {
   final String content;
   final String createdAt;
   final bool isFav;
+  final album;
   final bool mode;
 
   NotesList(this.id, this.title, this.location, this.content, this.createdAt,
-      this.isFav, this.mode);
+      this.isFav, this.album, this.mode);
 
   @override
   _NotesListState createState() => _NotesListState();
@@ -49,11 +50,10 @@ class _NotesListState extends State<NotesList> {
                         child: Text(
                           widget.title,
                           maxLines: 1,
-                          style: TextStyle(fontWeight: FontWeight.w700),
+                          style: TextStyle(fontFamily: "F",fontSize: 15),
                         ),
                       ),
-                      widget.mode
-                          ? Container(
+                       Container(
                               width: widget.mode ? 0 : screenSize.width * 0.43,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
@@ -75,35 +75,39 @@ class _NotesListState extends State<NotesList> {
                                     color: Colors.blue,
                                     size: 15,
                                   ),
-                                  SizedBox(width: screenSize.width * 0.01), 
+                                  SizedBox(width: screenSize.width * 0.01),
                                   Text(
                                     formatter.format(
                                         DateTime.parse(widget.createdAt)),
                                     style: TextStyle(
-                                        fontSize: 12, color: Colors.blue),
+                                        fontSize: 12, color: Colors.blue,letterSpacing: 0.5),
                                   ),
                                 ],
                               ),
                             )
-                          : SizedBox(
-                              width: 0,
-                            )
+                        
                     ],
+                  ),
+                ),
+                SizedBox(
+                  height: 7,
+                ),
+                Container(
+                  width: screenSize.width,
+                  height: screenSize.height * 0.053,
+                  padding: EdgeInsets.only(right: 10),
+                  margin: EdgeInsets.symmetric(vertical: 5),
+                  child: Text(
+                    widget.content,
+                    maxLines: 2,
+                    style: TextStyle(fontSize: 12),
                   ),
                 ),
                 Container(
                   width: screenSize.width,
-                  height: screenSize.height * 0.067,
-                  margin: EdgeInsets.symmetric(vertical: 5),
-                  child: Text(
-                    widget.content,
-                    maxLines: 3,
-                    style: TextStyle(fontSize: 12),
-                  ),
-                ),
-                widget.isFav
-                    ? Container(
-                        width: screenSize.width * 0.25,
+                  child: Row(
+                    children: <Widget>[
+                      Container(
                         height: screenSize.height * 0.028,
                         padding:
                             EdgeInsets.symmetric(vertical: 1, horizontal: 8),
@@ -115,7 +119,7 @@ class _NotesListState extends State<NotesList> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Icon(
-                              Icons.favorite,
+                              Icons.bookmark,
                               size: 13,
                               color: Colors.white,
                             ),
@@ -123,17 +127,54 @@ class _NotesListState extends State<NotesList> {
                               width: screenSize.width * 0.02,
                             ),
                             Text(
-                              "Favourite",
+                              widget.album,
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 12,
+                                fontSize: 11,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                           ],
                         ),
-                      )
-                    : SizedBox()
+                      ),
+                      SizedBox(width: 10),
+                      widget.isFav
+                          ? Container(
+                              width: screenSize.width * 0.25,
+                              height: screenSize.height * 0.028,
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 1, horizontal: 8),
+                              decoration: BoxDecoration(
+                                color: Color(0xff10bf0a),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.favorite,
+                                    size: 13,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(
+                                    width: screenSize.width * 0.02,
+                                  ),
+                                  Text(
+                                    "Favourite",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : SizedBox(),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),

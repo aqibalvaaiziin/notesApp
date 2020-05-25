@@ -9,6 +9,7 @@ class NotesPageView extends NotesPageViewModel {
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: Color(0xfff5f5f5),
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -19,8 +20,8 @@ class NotesPageView extends NotesPageViewModel {
                 moreMode ? "${selected.length} selected" : "All Notes",
                 style: TextStyle(
                   fontSize: moreMode ? 18 : 24,
-                  fontWeight: FontWeight.w700,
-                  color: moreMode ? Colors.white : Color(0xff2f3542),
+                  fontFamily: "CB",
+                  color: Color(0xff2f3542),
                 ),
               ),
               floating: true,
@@ -114,6 +115,7 @@ class NotesPageView extends NotesPageViewModel {
                                         notes[i]['content'],
                                         notes[i]['createdAt'],
                                         notes[i]['isFav'],
+                                        notes[i]['album']['title'],
                                         moreMode)),
                               ],
                             ),
@@ -127,7 +129,8 @@ class NotesPageView extends NotesPageViewModel {
                         child: CircularProgressIndicator(
                           backgroundColor: Color(0xff2f3542),
                         ),
-                      )),
+                      ),
+                    ),
             ),
           ],
         ),
