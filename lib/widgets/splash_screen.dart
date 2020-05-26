@@ -5,14 +5,14 @@ splashSreen(BuildContext context) {
   return Stack(
     children: <Widget>[
       Positioned(
-        top: screenSize.height * 0.49,
-        left: screenSize.width * 0.3,
+        top: screenSize.height * 0.4,
+        left: screenSize.width * 0.2,
         child: Container(
-          width: screenSize.width * 0.4,
-          height: screenSize.width * 0.2,
+          width: screenSize.width * 0.5,
+          height: screenSize.width * 0.47,
           decoration: BoxDecoration(boxShadow: [
             BoxShadow(
-              color: Colors.grey,
+              color: Colors.grey.withOpacity(0.5),
               blurRadius: 5,
             )
           ]),

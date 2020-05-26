@@ -54,33 +54,33 @@ class _NotesListState extends State<NotesList> {
                         ),
                       ),
                        Container(
-                              width: widget.mode ? 0 : screenSize.width * 0.43,
+                              width: widget.mode ? 0 : screenSize.width * 0.42,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   Icon(
                                     Icons.location_on,
                                     color: Colors.blue,
-                                    size: 15,
+                                    size: 12,
                                   ),
                                   SizedBox(width: screenSize.width * 0.01),
                                   Text(
                                     widget.location.toUpperCase(),
                                     style: TextStyle(
-                                        fontSize: 12, color: Colors.blue),
+                                        fontSize: 10, color: Colors.blue),
                                   ),
                                   SizedBox(width: screenSize.width * 0.03),
                                   Icon(
                                     Icons.timer,
                                     color: Colors.blue,
-                                    size: 15,
+                                    size: 12,
                                   ),
                                   SizedBox(width: screenSize.width * 0.01),
                                   Text(
                                     formatter.format(
                                         DateTime.parse(widget.createdAt)),
                                     style: TextStyle(
-                                        fontSize: 12, color: Colors.blue,letterSpacing: 0.5),
+                                        fontSize: 10, color: Colors.blue,letterSpacing: 0.5),
                                   ),
                                 ],
                               ),

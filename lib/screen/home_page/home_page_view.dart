@@ -39,7 +39,10 @@ class HomePageView extends HomePageViewModel {
               children: <Widget>[
                 Expanded(
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      newNoteDialog();
+                    },
                     child: Icon(
                       Icons.note_add,
                       color: Colors.white,
