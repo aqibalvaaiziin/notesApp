@@ -11,8 +11,8 @@ class NotesList extends StatefulWidget {
   final album;
   final bool mode;
 
-  NotesList(this.id, this.title, this.location, this.content, this.createdAt,
-      this.isFav, this.album, this.mode);
+  NotesList({this.id, this.title, this.location, this.content, this.createdAt,
+      this.isFav, this.album, this.mode});
 
   @override
   _NotesListState createState() => _NotesListState();
@@ -50,42 +50,43 @@ class _NotesListState extends State<NotesList> {
                         child: Text(
                           widget.title,
                           maxLines: 1,
-                          style: TextStyle(fontFamily: "F",fontSize: 15),
+                          style: TextStyle(fontFamily: "F", fontSize: 15),
                         ),
                       ),
-                       Container(
-                              width: widget.mode ? 0 : screenSize.width * 0.42,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.location_on,
-                                    color: Colors.blue,
-                                    size: 12,
-                                  ),
-                                  SizedBox(width: screenSize.width * 0.01),
-                                  Text(
-                                    widget.location.toUpperCase(),
-                                    style: TextStyle(
-                                        fontSize: 10, color: Colors.blue),
-                                  ),
-                                  SizedBox(width: screenSize.width * 0.03),
-                                  Icon(
-                                    Icons.timer,
-                                    color: Colors.blue,
-                                    size: 12,
-                                  ),
-                                  SizedBox(width: screenSize.width * 0.01),
-                                  Text(
-                                    formatter.format(
-                                        DateTime.parse(widget.createdAt)),
-                                    style: TextStyle(
-                                        fontSize: 10, color: Colors.blue,letterSpacing: 0.5),
-                                  ),
-                                ],
-                              ),
-                            )
-                        
+                      Container(
+                        width: widget.mode ? 0 : screenSize.width * 0.42,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Icon(
+                              Icons.location_on,
+                              color: Colors.blue,
+                              size: 12,
+                            ),
+                            SizedBox(width: screenSize.width * 0.01),
+                            Text(
+                              widget.location.toUpperCase(),
+                              style:
+                                  TextStyle(fontSize: 10, color: Colors.blue),
+                            ),
+                            SizedBox(width: screenSize.width * 0.03),
+                            Icon(
+                              Icons.timer,
+                              color: Colors.blue,
+                              size: 12,
+                            ),
+                            SizedBox(width: screenSize.width * 0.01),
+                            Text(
+                              formatter
+                                  .format(DateTime.parse(widget.createdAt)),
+                              style: TextStyle(
+                                  fontSize: 10,
+                                  color: Colors.blue,
+                                  letterSpacing: 0.5),
+                            ),
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -109,10 +110,13 @@ class _NotesListState extends State<NotesList> {
                     children: <Widget>[
                       Container(
                         height: screenSize.height * 0.028,
-                        padding:
-                            EdgeInsets.symmetric(vertical: 1, horizontal: 8),
+                        padding: EdgeInsets.symmetric(
+                          vertical: 1,
+                          horizontal: 8,
+                        ),
                         decoration: BoxDecoration(
-                          color: Colors.blue,
+                          color:
+                              widget.album == "Not Have a Album" ? Colors.red : Colors.blue,
                           borderRadius: BorderRadius.all(Radius.circular(20)),
                         ),
                         child: Row(

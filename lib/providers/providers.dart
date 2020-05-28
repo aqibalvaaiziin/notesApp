@@ -10,6 +10,10 @@ class Providers {
     return dio.get("$url/albums");
   }
 
+  static Future getAlbum(String id) async {
+    return dio.get("$url/albums/$id");
+  }
+
   static Future postAlbum(String title) async {
     await dio.post("$url/albums", data: {"title": title});
   }
@@ -26,6 +30,10 @@ class Providers {
 
   static Future getNotes() async {
     return dio.get("$url/notes");
+  }
+
+  static Future getNote(String id) async {
+    return dio.get("$url/notes/$id");
   }
 
   static Future postNote(String albumId, String title, String location,

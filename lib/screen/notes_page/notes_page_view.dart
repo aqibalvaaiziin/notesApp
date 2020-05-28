@@ -62,7 +62,7 @@ class NotesPageView extends NotesPageViewModel {
           children: <Widget>[
             Container(
               width: screenSize.width,
-              height: screenSize.height,
+              height: screenSize.height * 1.2,
               child: notes.length != 0
                   ? ListView.builder(
                       padding: EdgeInsets.zero,
@@ -109,14 +109,16 @@ class NotesPageView extends NotesPageViewModel {
                                     : Container(),
                                 Expanded(
                                     child: NotesList(
-                                        notes[i]['id'],
-                                        notes[i]['title'],
-                                        notes[i]['location'],
-                                        notes[i]['content'],
-                                        notes[i]['createdAt'],
-                                        notes[i]['isFav'],
-                                        notes[i]['album']['title'],
-                                        moreMode)),
+                                        id: notes[i]['id'],
+                                        title: notes[i]['title'],
+                                        location: notes[i]['location'],
+                                        content: notes[i]['content'],
+                                        createdAt: notes[i]['createdAt'],
+                                        isFav: notes[i]['isFav'],
+                                        album: notes[i]['album'] != null
+                                            ? notes[i]['album']['title']
+                                            : "Not Have a Album",
+                                        mode: moreMode)),
                               ],
                             ),
                           ),

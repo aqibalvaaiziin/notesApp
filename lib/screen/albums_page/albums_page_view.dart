@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notesapp/screen/albums_page/widget/list_albums.dart';
+import 'package:notesapp/screen/detail_album_page/detail_album_page.dart';
+import 'package:notesapp/widgets/page_transition.dart';
 import 'package:notesapp/widgets/silver_header.dart';
 import './albums_page_view_model.dart';
 
@@ -21,9 +23,18 @@ class AlbumsPageView extends AlbumsPageViewModel {
                     crossAxisSpacing: 15,
                     children: albums
                         .map(
-                          (album) => AlbumList(
-                            album['title'],
-                            album['notes'].length,
+                          (album) => GestureDetector(
+                            onTap: () {
+                              Navigator.of(context)
+                                  .push(createRoute(DetailAlbum(
+                                dataId: album['id'],
+                                title: album['title'],
+                              )));
+                            },
+                            child: AlbumList(
+                              album['title'],
+                              album['notes'].length,
+                            ),
                           ),
                         )
                         .toList(),
