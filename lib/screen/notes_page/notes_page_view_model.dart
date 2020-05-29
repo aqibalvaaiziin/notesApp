@@ -7,7 +7,7 @@ import './notes_page.dart';
 
 abstract class NotesPageViewModel extends State<NotesPage> {
   bool moreMode = false;
-  List<bool> checkbox = List.generate(2000, (index) => false);
+  List<bool> checkBox = List.generate(2000, (index) => false);
   List<String> selected = List();
   List notes = [];
 
@@ -24,24 +24,24 @@ abstract class NotesPageViewModel extends State<NotesPage> {
 
   void selectedCheckbox(int i, id) {
     setState(() {
-      checkbox[i] = true;
-      moreMode = checkbox.contains(true) ? true : false;
+      checkBox[i] = true;
+      moreMode = checkBox.contains(true) ? true : false;
       selected.contains(id) ? selected.remove(id) : selected.add(id);
     });
   }
 
   void checkBoxOnChange(int i, value, id) {
     setState(() {
-      checkbox[i] = value;
-      moreMode = checkbox.contains(true) ? true : false;
+      checkBox[i] = value;
+      moreMode = checkBox.contains(true) ? true : false;
       selected.contains(id) ? selected.remove(id) : selected.add(id);
     });
   }
 
-  void unselectedCheckBox(int i, id) {
+  void unselectedCheckbox(int i, id) {
     setState(() {
-      checkbox[i] = false;
-      moreMode = checkbox.contains(true) ? true : false;
+      checkBox[i] = false;
+      moreMode = checkBox.contains(true) ? true : false;
       selected.contains(id) ? selected.remove(id) : selected.add(id);
     });
   }
@@ -51,7 +51,7 @@ abstract class NotesPageViewModel extends State<NotesPage> {
       msg: message,
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
-      timeInSecForIos: 2,
+      timeInSecForIosWeb: 2,
       backgroundColor: Color(0xff2f3542),
       textColor: Color(0xff2ed573),
       fontSize: 16,
@@ -177,8 +177,8 @@ abstract class NotesPageViewModel extends State<NotesPage> {
   Future<bool> popCallback() async {
     if (moreMode) {
       setState(() {
-        checkbox = List.generate(2000, (i) => false);
-        moreMode = checkbox.contains(true) ? true : false;
+        checkBox = List.generate(2000, (i) => false);
+        moreMode = checkBox.contains(true) ? true : false;
         selected.clear();
       });
       return false;

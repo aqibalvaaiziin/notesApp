@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:notesapp/providers/providers.dart';
 import 'package:notesapp/screen/add_notes_page/add_notes_page.dart';
+import 'package:notesapp/screen/home_page/home_page.dart';
 import 'package:notesapp/widgets/page_transition.dart';
 import './detail_album_page.dart';
 
@@ -43,6 +45,17 @@ abstract class DetailAlbumViewModel extends State<DetailAlbum> {
     }
   }
 
+  message(String message) {
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
+  }
+
   Future deleteDialog() async {
     showDialog(
         context: context,
@@ -58,7 +71,6 @@ abstract class DetailAlbumViewModel extends State<DetailAlbum> {
                     width: (screenSize.width / 1.5) + 30,
                     constraints: BoxConstraints(maxHeight: 165),
                     decoration: BoxDecoration(
-                        // color: Color(0xFF2ED573),
                         color: Color(0xFFFFFFFFF),
                         borderRadius: BorderRadius.all(Radius.circular(20.0))),
                     child: Column(
@@ -107,7 +119,16 @@ abstract class DetailAlbumViewModel extends State<DetailAlbum> {
                                       bottomLeft: Radius.circular(20),
                                       bottomRight: Radius.circular(20))),
                               padding: EdgeInsets.zero,
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .pushReplacement(createRoute(HomePage(
+                                  index: 1,
+                                )));
+                                Providers.deleteAlbum(widget.dataId).then((_) {
+                                  message("Data Deleted");
+                                });
+                                setState(() {});
+                              },
                               child: Center(
                                 child: Icon(
                                   Icons.delete_forever,
@@ -132,7 +153,6 @@ abstract class DetailAlbumViewModel extends State<DetailAlbum> {
                         width: 40,
                         decoration: BoxDecoration(
                             color: Color(0xFF2F3542),
-                            // color: Color(0xFF2ED573),
                             borderRadius:
                                 BorderRadius.all(Radius.circular(20.0))),
                         child: Center(
@@ -156,112 +176,116 @@ abstract class DetailAlbumViewModel extends State<DetailAlbum> {
           return Scaffold(
             backgroundColor: Color(0xFF2F3542).withOpacity(0.4),
             body: Center(
-              child: Stack(
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.all(15),
-                    width: (screenSize.width / 1.5) + 30,
-                    decoration: BoxDecoration(
-                        // color: Color(0xFF2ED573),
-                        color: Color(0xFFFFFFFFF),
-                        borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Text(
-                                "Change Name",
-                                style: TextStyle(
-                                    fontSize: 24,
-                                    color: Color(0xFF2F3542),
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily: "SFP_Text"),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 15),
-                                child: TextField(
+              child: Container(
+                child: Stack(
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.all(15),
+                      width: (screenSize.width / 1.5) + 30,
+                      decoration: BoxDecoration(
+                          color: Color(0xFFFFFFFFF),
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(20.0))),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Text(
+                                  "Change Name",
                                   style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 24,
                                       color: Color(0xFF2F3542),
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: "SFP_Text"),
-                                  autofocus: true,
-                                  controller: controller,
-                                  decoration: InputDecoration(
-                                    // icon: Icon(
-                                    //   PaperflixIcon.search,
-                                    //   color: Color(0xFF2F3542),
-                                    // ),
-                                    hintText: "Change name album...",
-                                    hintStyle: TextStyle(
-                                        fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: "F"),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 15),
+                                  child: TextField(
+                                    style: TextStyle(
+                                        fontSize: 20,
                                         color: Color(0xFF2F3542),
                                         fontWeight: FontWeight.w500,
-                                        fontFamily: "SFP_Text"),
-                                    border: InputBorder.none,
+                                        fontFamily: "D"),
+                                    autofocus: true,
+                                    controller: controller,
+                                    decoration: InputDecoration(
+                                      hintText: "Change name album...",
+                                      hintStyle: TextStyle(
+                                          fontSize: 20,
+                                          color: Color(0xFF2F3542),
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily: "D"),
+                                      border: InputBorder.none,
+                                    ),
                                   ),
-                                ),
-                              )
-                            ],
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                        Container(
-                          height: 50,
-                          width: (screenSize.width / 1.5) + 30,
-                          decoration: BoxDecoration(
-                              color: Color(0xFF2ED573),
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(20),
-                                  bottomRight: Radius.circular(20))),
-                          child: FlatButton(
-                            shape: RoundedRectangleBorder(
+                          Container(
+                            height: 50,
+                            width: (screenSize.width / 1.5) + 30,
+                            decoration: BoxDecoration(
+                                color: Color(0xFF2ED573),
                                 borderRadius: BorderRadius.only(
                                     bottomLeft: Radius.circular(20),
                                     bottomRight: Radius.circular(20))),
-                            padding: EdgeInsets.zero,
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Center(
-                              child: Icon(
-                                Icons.update,
-                                color: Colors.white,
+                            child: FlatButton(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(20),
+                                      bottomRight: Radius.circular(20))),
+                              padding: EdgeInsets.zero,
+                              onPressed: () {
+                                Providers.putAlbum(
+                                        widget.dataId, controller.text)
+                                    .then((_) {
+                                  message("Title updated");
+                                  controller.clear();
+                                });
+                                setState(() {});
+                                Navigator.of(context).pop();
+                              },
+                              child: Center(
+                                child: Icon(
+                                  Icons.update,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    top: 0,
-                    right: 0,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                            color: Color(0xFF2F3542),
-                            // color: Color(0xFF2ED573),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20.0))),
-                        child: Center(
-                          child: Icon(Icons.close, color: Colors.white),
-                        ),
+                          )
+                        ],
                       ),
                     ),
-                  )
-                ],
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                              color: Color(0xFF2F3542),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20.0))),
+                          child: Center(
+                            child: Icon(Icons.close, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           );
@@ -281,7 +305,7 @@ abstract class DetailAlbumViewModel extends State<DetailAlbum> {
                   Container(
                     margin: EdgeInsets.all(15),
                     width: (screenSize.width / 1.5) + 30,
-                    height: screenSize.height * 0.27,
+                    height: screenSize.height * 0.29,
                     decoration: BoxDecoration(
                       color: Color(0xff404040),
                       borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -299,7 +323,7 @@ abstract class DetailAlbumViewModel extends State<DetailAlbum> {
                               Text(
                                 "New Note",
                                 style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 19,
                                     fontFamily: "F",
                                     color: Colors.white),
                               ),
@@ -313,8 +337,9 @@ abstract class DetailAlbumViewModel extends State<DetailAlbum> {
                                           dropdownColor: Color(0xff404040),
                                           hint: Text(
                                             "Choose the album you have",
-                                            style:
-                                                TextStyle(color: Colors.white),
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 13),
                                           ),
                                           value: albumValue,
                                           items: albums.map((album) {
@@ -323,7 +348,8 @@ abstract class DetailAlbumViewModel extends State<DetailAlbum> {
                                               child: Text(
                                                 album['title'],
                                                 style: TextStyle(
-                                                    color: Colors.white),
+                                                    color: Colors.white,
+                                                    fontSize: 13),
                                               ),
                                             );
                                           }).toList(),
@@ -349,7 +375,7 @@ abstract class DetailAlbumViewModel extends State<DetailAlbum> {
                                   autofocus: true,
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 16,
+                                    fontSize: 13,
                                   ),
                                   cursorColor: Colors.white,
                                   decoration: InputDecoration(
@@ -357,7 +383,7 @@ abstract class DetailAlbumViewModel extends State<DetailAlbum> {
                                     hintText: "Add your location....",
                                     hintStyle: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 16,
+                                      fontSize: 13,
                                     ),
                                   ),
                                 ),

@@ -11,8 +11,15 @@ class NotesList extends StatefulWidget {
   final album;
   final bool mode;
 
-  NotesList({this.id, this.title, this.location, this.content, this.createdAt,
-      this.isFav, this.album, this.mode});
+  NotesList(
+      {this.id,
+      this.title,
+      this.location,
+      this.content,
+      this.createdAt,
+      this.isFav,
+      this.album,
+      this.mode});
 
   @override
   _NotesListState createState() => _NotesListState();
@@ -28,7 +35,7 @@ class _NotesListState extends State<NotesList> {
       width: screenSize.width * 1.3,
       child: Container(
         width: screenSize.width,
-        height: screenSize.height * 0.17,
+        height: screenSize.height * 0.149,
         margin: EdgeInsets.symmetric(
           horizontal: screenSize.width * 0.03,
           vertical: screenSize.height * 0.01,
@@ -50,7 +57,10 @@ class _NotesListState extends State<NotesList> {
                         child: Text(
                           widget.title,
                           maxLines: 1,
-                          style: TextStyle(fontFamily: "F", fontSize: 15),
+                          style: TextStyle(
+                              fontFamily: "F",
+                              fontWeight: FontWeight.w600,
+                              fontSize: 17),
                         ),
                       ),
                       Container(
@@ -95,7 +105,7 @@ class _NotesListState extends State<NotesList> {
                 ),
                 Container(
                   width: screenSize.width,
-                  height: screenSize.height * 0.053,
+                  height: screenSize.height * 0.04,
                   padding: EdgeInsets.only(right: 10),
                   margin: EdgeInsets.symmetric(vertical: 5),
                   child: Text(
@@ -115,8 +125,9 @@ class _NotesListState extends State<NotesList> {
                           horizontal: 8,
                         ),
                         decoration: BoxDecoration(
-                          color:
-                              widget.album == "Not Have a Album" ? Colors.red : Colors.blue,
+                          color: widget.album == "Not Have a Album"
+                              ? Colors.red
+                              : Colors.blue,
                           borderRadius: BorderRadius.all(Radius.circular(20)),
                         ),
                         child: Row(

@@ -32,11 +32,13 @@ dependencies:
   dio: ^3.0.9
   zefyr: ^0.11.0
   app_settings: ^4.0.0
-  fluttertoast: ^3.1.0
+  fluttertoast: ^4.0.0
   cool_ui: ^0.2.1
   intl: ^0.16.1
   image_picker: ^0.6.1+4
+  fab_menu: ^0.0.2
   sticky_headers: ^0.1.8
+  quill_delta: ^1.0.0
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:notesapp/providers/providers.dart';
 import 'package:notesapp/screen/add_notes_page/add_notes_page.dart';
 import 'package:notesapp/screen/albums_page/albums_page.dart';
@@ -13,6 +14,7 @@ abstract class HomePageViewModel extends State<HomePage> {
   TextEditingController controller = TextEditingController();
   List albums = [];
   String albumValue;
+  bool isSuccess = true;
 
   List<Map> children = [
     {
@@ -46,6 +48,17 @@ abstract class HomePageViewModel extends State<HomePage> {
     setState(() {
       currentIndex = index;
     });
+  }
+
+  void message(String message) {
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: isSuccess ? Colors.red : Color(0xff00ad00),
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 
   Future newAlbumDialog() async {
@@ -124,7 +137,26 @@ abstract class HomePageViewModel extends State<HomePage> {
                                 ),
                               ),
                               padding: EdgeInsets.zero,
-                              onPressed: () {},
+                              onPressed: () {
+                                if (controller.text.isNotEmpty) {
+                                  Providers.postAlbum(controller.text)
+                                      .then((_) {
+                                    setState(() {
+                                      isSuccess = false;
+                                      message("Album Added");
+                                    });
+                                  });
+                                  Navigator.of(context)
+                                      .pushReplacement(createRoute(HomePage(
+                                    index: 1,
+                                  )));
+                                } else {
+                                  setState(() {
+                                    isSuccess = true;
+                                    message("Add The Title");
+                                  });
+                                }
+                              },
                               child: Center(
                                 child: Icon(Icons.add, color: Colors.white),
                               )),
@@ -176,7 +208,7 @@ abstract class HomePageViewModel extends State<HomePage> {
                   Container(
                     margin: EdgeInsets.all(15),
                     width: (screenSize.width / 1.5) + 30,
-                    height: screenSize.height * 0.27,
+                    height: screenSize.height * 0.29,
                     decoration: BoxDecoration(
                       color: Color(0xff404040),
                       borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -194,7 +226,7 @@ abstract class HomePageViewModel extends State<HomePage> {
                               Text(
                                 "New Note",
                                 style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 19,
                                     fontFamily: "F",
                                     color: Colors.white),
                               ),
@@ -208,17 +240,19 @@ abstract class HomePageViewModel extends State<HomePage> {
                                           dropdownColor: Color(0xff404040),
                                           hint: Text(
                                             "Choose the album you have",
-                                            style:
-                                                TextStyle(color: Colors.white),
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 13),
                                           ),
                                           value: albumValue,
                                           items: albums.map((album) {
                                             return new DropdownMenuItem(
-                                              value: album['title'],
+                                              value: album['id'],
                                               child: Text(
                                                 album['title'],
                                                 style: TextStyle(
-                                                    color: Colors.white),
+                                                    color: Colors.white,
+                                                    fontSize: 13),
                                               ),
                                             );
                                           }).toList(),
@@ -245,7 +279,7 @@ abstract class HomePageViewModel extends State<HomePage> {
                                   autofocus: true,
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 16,
+                                    fontSize: 13,
                                   ),
                                   cursorColor: Colors.white,
                                   decoration: InputDecoration(
@@ -253,7 +287,7 @@ abstract class HomePageViewModel extends State<HomePage> {
                                     hintText: "Add your location....",
                                     hintStyle: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 16,
+                                      fontSize: 13,
                                     ),
                                   ),
                                 ),
@@ -280,10 +314,19 @@ abstract class HomePageViewModel extends State<HomePage> {
                               ),
                               padding: EdgeInsets.zero,
                               onPressed: () {
-                                Navigator.of(context).pop();
-                                Navigator.of(context)
-                                    .push(createRoute(AddNotePage()));
-                                print("object");
+                                if (controller.text.isEmpty) {
+                                  setState(() {
+                                    isSuccess = true;
+                                    message("Add the form first!");
+                                  });
+                                } else {
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context)
+                                      .push(createRoute(AddNotePage(
+                                    location: controller.text,
+                                    album: albumValue,
+                                  )));
+                                }
                               },
                               child: Center(
                                 child: Icon(Icons.add, color: Colors.white),

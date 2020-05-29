@@ -55,10 +55,7 @@ class AddNotePageView extends AddNotePageViewModel {
           actions: <Widget>[
             InkWell(
               borderRadius: BorderRadius.circular(50),
-              onTap: () {
-                btnSave();
-                // navigate to another page
-              },
+              onTap: () {},
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
                 child: Icon(
