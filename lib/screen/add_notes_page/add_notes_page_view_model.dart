@@ -1,7 +1,13 @@
 // import 'dart:convert';
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:notesapp/providers/providers.dart';
 import 'package:notesapp/screen/add_notes_page/add_notes_page.dart';
+import 'package:notesapp/screen/home_page/home_page.dart';
+import 'package:notesapp/widgets/page_transition.dart';
 import 'package:quill_delta/quill_delta.dart';
 import 'package:zefyr/zefyr.dart';
 
@@ -18,6 +24,37 @@ abstract class AddNotePageViewModel extends State<AddNotePage> {
   Future<bool> willPopCallback() async {
     return true;
   }
+
+  message(String message) {
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.green[800],
+        textColor: Colors.white,
+        fontSize: 16.0);
+  }
+
+  saveNote() {
+    var dataContent = jsonDecode(jsonEncode(controller.document));
+    print(dataContent[0]['insert'].toString());
+    Providers.postNote(
+      widget.album,
+      titleController.text,
+      widget.location,
+      dataContent[0]['insert'].toString(),
+      false,
+    ).then((_) {
+      controller.document.close();
+      titleController.clear();
+      Navigator.of(context).push(
+        createRoute(HomePage(index: 0)),
+      );
+      message("Note Added");
+    });
+  }
+
 
   @override
   void dispose() {

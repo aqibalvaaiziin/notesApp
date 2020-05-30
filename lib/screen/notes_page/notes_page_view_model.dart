@@ -6,9 +6,6 @@ import 'package:notesapp/providers/providers.dart';
 import './notes_page.dart';
 
 abstract class NotesPageViewModel extends State<NotesPage> {
-  bool moreMode = false;
-  List<bool> checkBox = List.generate(2000, (index) => false);
-  List<String> selected = List();
   List notes = [];
 
   void getNotes() {
@@ -19,30 +16,6 @@ abstract class NotesPageViewModel extends State<NotesPage> {
           notes.add(data[i]);
         });
       }
-    });
-  }
-
-  void selectedCheckbox(int i, id) {
-    setState(() {
-      checkBox[i] = true;
-      moreMode = checkBox.contains(true) ? true : false;
-      selected.contains(id) ? selected.remove(id) : selected.add(id);
-    });
-  }
-
-  void checkBoxOnChange(int i, value, id) {
-    setState(() {
-      checkBox[i] = value;
-      moreMode = checkBox.contains(true) ? true : false;
-      selected.contains(id) ? selected.remove(id) : selected.add(id);
-    });
-  }
-
-  void unselectedCheckbox(int i, id) {
-    setState(() {
-      checkBox[i] = false;
-      moreMode = checkBox.contains(true) ? true : false;
-      selected.contains(id) ? selected.remove(id) : selected.add(id);
     });
   }
 
@@ -58,132 +31,122 @@ abstract class NotesPageViewModel extends State<NotesPage> {
     );
   }
 
-  Future deleteSelectedNote() {
-    showDelete();
-    return null;
-  }
-
-  void showDelete() {
+  Future optionDialog() async {
     showDialog(
-      context: context,
-      builder: (context) {
-        var screenSize = MediaQuery.of(context).size;
-        return Scaffold(
-          backgroundColor: Color(0xff23542).withOpacity(0.4),
-          body: Center(
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.all(15),
-                  width: (screenSize.width / 1.5) + 30,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text("Delete the selected note?"),
-                            SizedBox(
-                              height: screenSize.height * 0.001,
-                            ),
-                            Text(
-                                "Do you really want to delete it? you can't restore it."),
-                            Container(
-                              width: (screenSize.width * 1.5) + 30,
-                              height: screenSize.height * 0.06,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(20),
-                                  bottomRight: Radius.circular(20),
-                                ),
+        context: context,
+        builder: (context) {
+          var screenSize = MediaQuery.of(context).size;
+          return Scaffold(
+            backgroundColor: Color(0xff2f3542).withOpacity(0.4),
+            body: Center(
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.all(15),
+                    width: (screenSize.width / 1.5) + 30,
+                    height: screenSize.height * 0.16,
+                    decoration: BoxDecoration(
+                      color: Color(0xff404040),
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(15, 20, 15, 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Text(
+                                "New Note",
+                                style: TextStyle(
+                                    fontSize: 19,
+                                    fontFamily: "F",
+                                    color: Colors.white),
                               ),
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                    width: (screenSize.width / 1.5) + 30,
-                                    decoration: BoxDecoration(
-                                      color: Colors.red,
-                                      borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(20),
-                                        bottomRight: Radius.circular(20),
-                                      ),
-                                    ),
-                                    child: FlatButton(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                          bottomLeft: Radius.circular(20),
-                                          bottomRight: Radius.circular(20),
-                                        ),
-                                      ),
-                                      padding: EdgeInsets.zero,
-                                      onPressed: () {
-                                        toastMsg("Delete Successfully");
-                                      },
-                                      child: Center(
-                                        child: Icon(
-                                          Icons.delete_forever,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      )
-                    ],
+                        SizedBox(height: 5,),
+                        Container(
+                          width: (screenSize.width / 1.5) + 30,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                width: screenSize.width * 0.23,
+                                height: screenSize.height * 0.05,
+                                decoration: BoxDecoration(
+                                  color: Color(0xffffb800),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                ),
+                                child: FlatButton(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                    ),
+                                    padding: EdgeInsets.zero,
+                                    onPressed: () {},
+                                    child: Center(
+                                      child: Text("Drop Note"),
+                                    )),
+                              ),
+                              SizedBox(width: 10,),
+                              Container(
+                                width: screenSize.width * 0.23,
+                                height: screenSize.height * 0.05,
+                                decoration: BoxDecoration(
+                                  color: Color(0xffffb800),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                ),
+                                child: FlatButton(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                    ),
+                                    padding: EdgeInsets.zero,
+                                    onPressed: () {},
+                                    child: Center(
+                                      child: Text("Add to Album"),
+                                    )),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
+                  Positioned(
+                    top: 7,
+                    right: 10,
                     child: Container(
                       width: screenSize.width * 0.1,
                       height: screenSize.width * 0.1,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        color: Color(0xff2f3542),
+                        shape: BoxShape.circle,
                       ),
                       child: Center(
-                        child: Icon(
-                          Icons.close,
-                          color: Colors.white,
-                        ),
+                        child: IconButton(
+                            icon: Icon(
+                              Icons.close,
+                              color: Colors.white,
+                              size: 17,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            }),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        );
-      },
-    );
-  }
-
-  Future<bool> popCallback() async {
-    if (moreMode) {
-      setState(() {
-        checkBox = List.generate(2000, (i) => false);
-        moreMode = checkBox.contains(true) ? true : false;
-        selected.clear();
-      });
-      return false;
-    } else
-      return true;
+          );
+        });
   }
 
   @override

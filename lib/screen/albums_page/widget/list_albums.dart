@@ -14,6 +14,7 @@ class _AlbumListState extends State<AlbumList> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(13)),
@@ -24,7 +25,7 @@ class _AlbumListState extends State<AlbumList> {
       child: Column(
         children: <Widget>[
           Expanded(
-            flex: 7,
+            flex: 6,
             child: ClipRRect(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(13),
@@ -40,17 +41,17 @@ class _AlbumListState extends State<AlbumList> {
             flex: 3,
             child: Column(
               children: <Widget>[
-                SizedBox(height: 10),
+                SizedBox(height: 9),
                 Text(
                   widget.title,
                   style: TextStyle(
-                      fontSize: 14, fontFamily: "CB", letterSpacing: 0.2),
+                      fontSize: 16, fontFamily: "CB", letterSpacing: 0.2),
                 ),
-                SizedBox(height: 5),
+                SizedBox(height: 3),
                 Text(
                   widget.data.toString() + " Notes",
                   style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 13,
                       color: Color(0xff0084ff),
                       fontWeight: FontWeight.w600,
                       letterSpacing: 0.2),

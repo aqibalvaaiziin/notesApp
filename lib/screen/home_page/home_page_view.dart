@@ -69,9 +69,8 @@ class HomePageView extends HomePageViewModel {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
-        color: Color(0xff757373),
         notchMargin: 4,
-        clipBehavior: Clip.antiAlias,
+        clipBehavior: Clip.hardEdge,
         child: BottomNavigationBar(
           onTap: onTabTapped,
           currentIndex: currentIndex,

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -55,7 +56,9 @@ class AddNotePageView extends AddNotePageViewModel {
           actions: <Widget>[
             InkWell(
               borderRadius: BorderRadius.circular(50),
-              onTap: () {},
+              onTap: () async {
+                saveNote();
+              },
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
                 child: Icon(

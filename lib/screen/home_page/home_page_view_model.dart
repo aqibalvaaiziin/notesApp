@@ -27,9 +27,9 @@ abstract class HomePageViewModel extends State<HomePage> {
     {
       "name": "All Albums",
       "page": AlbumsPage(),
-      "unSelectedColor": 0xFFa4b0be,
+      "unSelectedColor": 0xffa4b0be,
       "selectedColor": 0xffffb800,
-      "background": 0xFF2F3542
+      "background": 0xff2f3542
     },
   ];
 

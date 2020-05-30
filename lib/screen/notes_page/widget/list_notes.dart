@@ -35,7 +35,7 @@ class _NotesListState extends State<NotesList> {
       width: screenSize.width * 1.3,
       child: Container(
         width: screenSize.width,
-        height: screenSize.height * 0.149,
+        height: screenSize.height * 0.162,
         margin: EdgeInsets.symmetric(
           horizontal: screenSize.width * 0.03,
           vertical: screenSize.height * 0.01,
@@ -49,11 +49,10 @@ class _NotesListState extends State<NotesList> {
               children: <Widget>[
                 Container(
                   width: screenSize.width,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
                     children: <Widget>[
                       Container(
-                        width: screenSize.width * 0.45,
+                        width: screenSize.width,
                         child: Text(
                           widget.title,
                           maxLines: 1,
@@ -63,45 +62,54 @@ class _NotesListState extends State<NotesList> {
                               fontSize: 17),
                         ),
                       ),
+                      SizedBox(
+                        height: 3,
+                      ),
                       Container(
-                        width: widget.mode ? 0 : screenSize.width * 0.42,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                            Icon(
-                              Icons.location_on,
-                              color: Colors.blue,
-                              size: 12,
-                            ),
-                            SizedBox(width: screenSize.width * 0.01),
-                            Text(
-                              widget.location.toUpperCase(),
-                              style:
-                                  TextStyle(fontSize: 10, color: Colors.blue),
-                            ),
-                            SizedBox(width: screenSize.width * 0.03),
-                            Icon(
-                              Icons.timer,
-                              color: Colors.blue,
-                              size: 12,
-                            ),
-                            SizedBox(width: screenSize.width * 0.01),
-                            Text(
-                              formatter
-                                  .format(DateTime.parse(widget.createdAt)),
-                              style: TextStyle(
-                                  fontSize: 10,
-                                  color: Colors.blue,
-                                  letterSpacing: 0.5),
-                            ),
+                            Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.location_on,
+                                    color: Colors.blue,
+                                    size: 12,
+                                  ),
+                                  SizedBox(width: screenSize.width * 0.01),
+                                  Text(
+                                    widget.location.toUpperCase(),
+                                    style: TextStyle(
+                                        fontSize: 10, color: Colors.blue),
+                                  ),
+                                  SizedBox(width: screenSize.width * 0.03),
+                                  Icon(
+                                    Icons.timer,
+                                    color: Colors.blue,
+                                    size: 12,
+                                  ),
+                                  SizedBox(width: screenSize.width * 0.01),
+                                  Text(
+                                    formatter.format(
+                                        DateTime.parse(widget.createdAt)),
+                                    style: TextStyle(
+                                        fontSize: 10,
+                                        color: Colors.blue,
+                                        letterSpacing: 0.5),
+                                  ),
+                                ],
+                              ),
+                            )
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
                 SizedBox(
-                  height: 7,
+                  height: 2,
                 ),
                 Container(
                   width: screenSize.width,
