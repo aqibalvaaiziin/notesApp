@@ -1,5 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:quill_delta/quill_delta.dart';
+import 'package:zefyr/zefyr.dart';
 
 class NotesList extends StatefulWidget {
   final String id;
@@ -27,6 +32,53 @@ class NotesList extends StatefulWidget {
 
 class _NotesListState extends State<NotesList> {
   var formatter = new DateFormat('dd-MM-yyyy');
+  RegExp imageRegex1 = RegExp(r'(?<="source").*(?=}}})', multiLine: true);
+  static var start = "source: ";
+  var end = "}}}";
+  static String contentImage;
+  String plaintext;
+  String bodyContent;
+  String image;
+  var doc;
+  int type = 0;
+
+  Delta getDelta() {
+    return Delta.fromJson(jsonDecode(widget.content) as List);
+  }
+
+  void initNoteCard() {
+    contentImage = jsonDecode(widget.content).toString();
+    doc = NotusDocument.fromDelta(getDelta());
+    doc.format(0, 0, NotusAttribute.heading.unset);
+    plaintext = doc.toPlainText();
+    bodyContent = plaintext.replaceAll("\n", " ");
+    var startIndex = contentImage.toString().indexOf(start);
+    var endIndex =
+        contentImage.toString().indexOf(end, startIndex + start.length);
+    if (contentImage.contains('source')) {
+      var pattern = contentImage.substring(startIndex + start.length, endIndex);
+      if (imageRegex1.stringMatch(contentImage).toString().length > 1) {
+        setState(() {
+          type = 1;
+          image = "$pattern";
+        });
+      } else if (imageRegex1.stringMatch(contentImage).toString().length < 1) {
+        setState(() {
+          type = 0;
+        });
+      }
+    } else {
+      setState(() {
+        type = 0;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initNoteCard();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +87,7 @@ class _NotesListState extends State<NotesList> {
       width: screenSize.width * 1.3,
       child: Container(
         width: screenSize.width,
-        height: screenSize.height * 0.162,
+        height: screenSize.height * 0.189,
         margin: EdgeInsets.symmetric(
           horizontal: screenSize.width * 0.03,
           vertical: screenSize.height * 0.01,
@@ -51,20 +103,6 @@ class _NotesListState extends State<NotesList> {
                   width: screenSize.width,
                   child: Column(
                     children: <Widget>[
-                      Container(
-                        width: screenSize.width,
-                        child: Text(
-                          widget.title,
-                          maxLines: 1,
-                          style: TextStyle(
-                              fontFamily: "F",
-                              fontWeight: FontWeight.w600,
-                              fontSize: 17),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 3,
-                      ),
                       Container(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -82,7 +120,7 @@ class _NotesListState extends State<NotesList> {
                                   Text(
                                     widget.location.toUpperCase(),
                                     style: TextStyle(
-                                        fontSize: 10, color: Colors.blue),
+                                        fontSize: 11, color: Colors.blue),
                                   ),
                                   SizedBox(width: screenSize.width * 0.03),
                                   Icon(
@@ -95,7 +133,7 @@ class _NotesListState extends State<NotesList> {
                                     formatter.format(
                                         DateTime.parse(widget.createdAt)),
                                     style: TextStyle(
-                                        fontSize: 10,
+                                        fontSize: 11,
                                         color: Colors.blue,
                                         letterSpacing: 0.5),
                                   ),
@@ -108,20 +146,63 @@ class _NotesListState extends State<NotesList> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 2,
-                ),
                 Container(
                   width: screenSize.width,
-                  height: screenSize.height * 0.04,
+                  height: screenSize.height * 0.09,
                   padding: EdgeInsets.only(right: 10),
                   margin: EdgeInsets.symmetric(vertical: 5),
-                  child: Text(
-                    widget.content,
-                    maxLines: 2,
-                    style: TextStyle(fontSize: 12),
+                  child: Row(
+                    children: <Widget>[
+                      type == 1
+                          ? Expanded(
+                              flex: 3,
+                              child: Container(
+                                height: screenSize.height * 0.08,
+                                width: screenSize.width * 0.1,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: Image.file(
+                                    File(image),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : SizedBox(),
+                      SizedBox(width: 7),
+                      Expanded(
+                        flex: 8,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              width: screenSize.width,
+                              child: Text(
+                                widget.title,
+                                maxLines: 1,
+                                style: TextStyle(
+                                    fontFamily: "F",
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 17),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 3,
+                            ),
+                            Container(
+                              child: Text(
+                                bodyContent,
+                                maxLines: 3,
+                                style: TextStyle(fontSize: 12),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                 ),
+                SizedBox(height: 3),
                 Container(
                   width: screenSize.width,
                   child: Row(

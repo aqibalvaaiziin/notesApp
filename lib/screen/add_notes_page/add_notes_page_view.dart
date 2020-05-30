@@ -10,7 +10,7 @@ class AddNotePageView extends AddNotePageViewModel {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
-    var formatter = DateFormat('yyyy-MM-dd');
+    var formatter = DateFormat('dd-MM-yyyy');
     String date = formatter.format(DateTime.now());
     final theme = new ZefyrThemeData(
         attributeTheme: AttributeTheme(

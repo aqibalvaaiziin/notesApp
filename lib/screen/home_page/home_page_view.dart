@@ -7,7 +7,7 @@ class HomePageView extends HomePageViewModel {
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomPadding: true,
       body: children[currentIndex]['page'],
       floatingActionButton: CupertinoPopoverButton(
         popoverWidth: screenSize.width / 1.5,
