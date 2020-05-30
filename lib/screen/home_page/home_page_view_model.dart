@@ -144,12 +144,12 @@ abstract class HomePageViewModel extends State<HomePage> {
                                     setState(() {
                                       isSuccess = false;
                                       message("Album Added");
+                                      Navigator.of(context)
+                                          .pushReplacement(createRoute(HomePage(
+                                        index: 1,
+                                      )));
                                     });
                                   });
-                                  Navigator.of(context)
-                                      .pushReplacement(createRoute(HomePage(
-                                    index: 1,
-                                  )));
                                 } else {
                                   setState(() {
                                     isSuccess = true;

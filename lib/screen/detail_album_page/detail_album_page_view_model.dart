@@ -120,12 +120,12 @@ abstract class DetailAlbumViewModel extends State<DetailAlbum> {
                                       bottomRight: Radius.circular(20))),
                               padding: EdgeInsets.zero,
                               onPressed: () {
-                                Navigator.of(context)
-                                    .pushReplacement(createRoute(HomePage(
-                                  index: 1,
-                                )));
                                 Providers.deleteAlbum(widget.dataId).then((_) {
                                   message("Data Deleted");
+                                  Navigator.of(context)
+                                      .pushReplacement(createRoute(HomePage(
+                                    index: 1,
+                                  )));
                                 });
                                 setState(() {});
                               },
@@ -249,9 +249,12 @@ abstract class DetailAlbumViewModel extends State<DetailAlbum> {
                                     .then((_) {
                                   message("Title updated");
                                   controller.clear();
+                                  Navigator.of(context)
+                                      .pushReplacement(createRoute(DetailAlbum(
+                                    dataId: widget.dataId,
+                                  )));
                                 });
                                 setState(() {});
-                                Navigator.of(context).pop();
                               },
                               child: Center(
                                 child: Icon(

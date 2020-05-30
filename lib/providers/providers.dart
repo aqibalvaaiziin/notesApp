@@ -49,7 +49,7 @@ class Providers {
 
   static Future putNote(String noteId, String albumId, String title,
       String location, String content, bool isFav) async {
-    await dio.post("$url/notes/$noteId", data: {
+    await dio.put("$url/notes/$noteId", data: {
       "album": albumId,
       "title": title,
       "location": location,

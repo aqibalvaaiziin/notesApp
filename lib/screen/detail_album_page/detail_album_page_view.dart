@@ -128,7 +128,6 @@ class DetailAlbumView extends DetailAlbumViewModel {
                                               location: showAlbum[0]['notes'][i]
                                                   ['location'],
                                               album: showAlbum[0]['title'],
-                                              mode: false,
                                             )),
                                   )
                                 : Center(

@@ -91,7 +91,21 @@ class NotesPageView extends NotesPageViewModel {
                             print("das");
                           },
                           onLongPress: () {
-                            print("dor");
+                            setState(() {
+                              idNote = notes[i]['id'];
+                              idAlbum = notes[i]['album'] == null
+                                  ? null
+                                  : notes[i]['album']['_id'];
+                              titleNote = notes[i]['title'];
+                              locationNote = notes[i]['location'];
+                              contentNote = notes[i]['content'];
+                              isFavNote = notes[i]['isFav'];
+                              print("id : $idNote");
+                              print("idAlbum : $idAlbum");
+                              print("titleNote : $titleNote");
+                              print("locationNote : $locationNote");
+                              print("contentNote : $contentNote");
+                            });
                             optionDialog();
                           },
                           child: NotesList(
@@ -104,7 +118,6 @@ class NotesPageView extends NotesPageViewModel {
                             album: notes[i]['album'] != null
                                 ? notes[i]['album']['title']
                                 : "Not Have a Album",
-                            mode: false,
                           ),
                         ),
                       );

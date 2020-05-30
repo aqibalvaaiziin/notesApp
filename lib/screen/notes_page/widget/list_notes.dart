@@ -14,17 +14,16 @@ class NotesList extends StatefulWidget {
   final String createdAt;
   final bool isFav;
   final album;
-  final bool mode;
 
-  NotesList(
-      {this.id,
-      this.title,
-      this.location,
-      this.content,
-      this.createdAt,
-      this.isFav,
-      this.album,
-      this.mode});
+  NotesList({
+    this.id,
+    this.title,
+    this.location,
+    this.content,
+    this.createdAt,
+    this.isFav,
+    this.album,
+  });
 
   @override
   _NotesListState createState() => _NotesListState();
