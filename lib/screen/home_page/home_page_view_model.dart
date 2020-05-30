@@ -258,7 +258,6 @@ abstract class HomePageViewModel extends State<HomePage> {
                                           }).toList(),
                                           onChanged: (data) {
                                             albumValue = data;
-                                            print(albumValue);
                                             setState(() {});
                                           },
                                         )

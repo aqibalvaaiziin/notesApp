@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -108,7 +107,7 @@ class AddNotePageView extends AddNotePageViewModel {
                       controller: controller,
                       focusNode: focusNode,
                       autofocus: false,
-                      imageDelegate: new MyAppZefyrImageDelegate(),
+                      imageDelegate:new MyAppZefyrImageDelegate(),
                       physics: ClampingScrollPhysics(),
                     ),
                   ),
@@ -131,9 +130,9 @@ class MyAppZefyrImageDelegate implements ZefyrImageDelegate<ImageSource> {
 
   @override
   Future<String> pickImage(ImageSource source) async {
-    final file = await ImagePicker.pickImage(source: source);
+    final file = await ImagePicker().getImage(source: source);
     if (file == null) return null;
-    return file.uri.toString();
+    return file.path;
   }
 
   @override

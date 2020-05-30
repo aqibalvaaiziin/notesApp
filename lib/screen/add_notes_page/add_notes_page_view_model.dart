@@ -37,13 +37,13 @@ abstract class AddNotePageViewModel extends State<AddNotePage> {
   }
 
   saveNote() {
-    var dataContent = jsonDecode(jsonEncode(controller.document));
-    print(dataContent[0]['insert'].toString());
+    var dataContent = jsonEncode(controller.document);
+    print("data = ${dataContent.toString()}");
     Providers.postNote(
       widget.album,
       titleController.text,
       widget.location,
-      dataContent[0]['insert'].toString(),
+      dataContent,
       false,
     ).then((_) {
       controller.document.close();
