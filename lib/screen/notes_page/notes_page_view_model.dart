@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:notesapp/providers/providers.dart';
+import 'package:notesapp/screen/change_album_page/change_album_page.dart';
 import 'package:notesapp/screen/home_page/home_page.dart';
 import 'package:notesapp/widgets/page_transition.dart';
 import './notes_page.dart';
@@ -86,7 +87,17 @@ abstract class NotesPageViewModel extends State<NotesPage> {
                                           BorderRadius.all(Radius.circular(7)),
                                     ),
                                     child: FlatButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          Navigator.of(context)
+                                              .push(createRoute(ChangeAlbum(
+                                            idNote: idNote,
+                                            title: titleNote,
+                                            location: locationNote,
+                                            content: contentNote,
+                                            isFav: isFavNote,
+                                          )));
+                                        },
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
@@ -99,7 +110,7 @@ abstract class NotesPageViewModel extends State<NotesPage> {
                                               width: 5,
                                             ),
                                             Text(
-                                              "Add To Album",
+                                              "Add to album",
                                               style: TextStyle(
                                                   fontSize: 13,
                                                   fontFamily: "FL",
@@ -121,7 +132,7 @@ abstract class NotesPageViewModel extends State<NotesPage> {
                                         onPressed: () {
                                           Providers.deleteNote(idNote)
                                               .then((_) {
-                                            message("Note Deleted");
+                                            message("Note deleted");
                                             Navigator.of(context)
                                                 .pushReplacement(
                                               createRoute(HomePage(index: 0)),
@@ -140,7 +151,7 @@ abstract class NotesPageViewModel extends State<NotesPage> {
                                               width: 5,
                                             ),
                                             Text(
-                                              "Delete Note",
+                                              "Delete note",
                                               style: TextStyle(
                                                   fontSize: 13,
                                                   fontFamily: "FL",
@@ -156,9 +167,13 @@ abstract class NotesPageViewModel extends State<NotesPage> {
                             ),
                             SizedBox(height: 10),
                             Container(
-                              width: screenSize.width * 0.35,
+                              width: isFavNote
+                                  ? screenSize.width * 0.4
+                                  : screenSize.width * 0.35,
                               decoration: BoxDecoration(
-                                color: Colors.green,
+                                color: isFavNote
+                                    ? Colors.orange[700]
+                                    : Colors.green,
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(7)),
                               ),
@@ -172,7 +187,7 @@ abstract class NotesPageViewModel extends State<NotesPage> {
                                             contentNote,
                                             !isFavNote)
                                         .then((_) {
-                                      message("Note Updated");
+                                      message("Note updated");
                                       Navigator.of(context)
                                           .pushReplacement(createRoute(HomePage(
                                         index: 0,
@@ -183,14 +198,18 @@ abstract class NotesPageViewModel extends State<NotesPage> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Icon(
-                                        Icons.check_box,
+                                        isFavNote
+                                            ? Icons.close
+                                            : Icons.check_box,
                                         color: Colors.white,
                                       ),
                                       SizedBox(
                                         width: 5,
                                       ),
                                       Text(
-                                        "Add To Favourite",
+                                        isFavNote
+                                            ? "Remove from favourite"
+                                            : "Add to favourite",
                                         style: TextStyle(
                                             fontSize: 13,
                                             fontFamily: "FL",

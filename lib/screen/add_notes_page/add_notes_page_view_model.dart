@@ -48,7 +48,7 @@ abstract class AddNotePageViewModel extends State<AddNotePage> {
     ).then((_) {
       controller.document.close();
       titleController.clear();
-      Navigator.of(context).push(
+      Navigator.of(context).pushReplacement(
         createRoute(HomePage(index: 0)),
       );
       message("Note Added");
