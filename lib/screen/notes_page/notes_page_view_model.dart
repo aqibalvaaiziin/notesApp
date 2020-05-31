@@ -168,7 +168,7 @@ abstract class NotesPageViewModel extends State<NotesPage> {
                             SizedBox(height: 10),
                             Container(
                               width: isFavNote
-                                  ? screenSize.width * 0.4
+                                  ? screenSize.width * 0.43
                                   : screenSize.width * 0.35,
                               decoration: BoxDecoration(
                                 color: isFavNote

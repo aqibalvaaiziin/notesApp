@@ -308,7 +308,7 @@ abstract class DetailAlbumViewModel extends State<DetailAlbum> {
                   Container(
                     margin: EdgeInsets.all(15),
                     width: (screenSize.width / 1.5) + 30,
-                    height: screenSize.height * 0.29,
+                    height: screenSize.height * 0.22,
                     decoration: BoxDecoration(
                       color: Color(0xff404040),
                       borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -330,40 +330,6 @@ abstract class DetailAlbumViewModel extends State<DetailAlbum> {
                                     fontFamily: "F",
                                     color: Colors.white),
                               ),
-                              Container(
-                                  width: screenSize.width * 0.7,
-                                  padding: EdgeInsets.only(top: 10),
-                                  child: albums.length > 0
-                                      ? DropdownButton(
-                                          iconSize: 0,
-                                          focusColor: Colors.white,
-                                          dropdownColor: Color(0xff404040),
-                                          hint: Text(
-                                            "Choose the album you have",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 13),
-                                          ),
-                                          value: albumValue,
-                                          items: albums.map((album) {
-                                            return new DropdownMenuItem(
-                                              value: album['title'],
-                                              child: Text(
-                                                album['title'],
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 13),
-                                              ),
-                                            );
-                                          }).toList(),
-                                          onChanged: (data) {
-                                            albumValue = data;
-                                            setState(() {});
-                                          },
-                                        )
-                                      : Center(
-                                          child: CircularProgressIndicator(),
-                                        )),
                               Container(
                                 padding: EdgeInsets.only(top: 10),
                                 decoration: BoxDecoration(
@@ -415,7 +381,10 @@ abstract class DetailAlbumViewModel extends State<DetailAlbum> {
                               onPressed: () {
                                 Navigator.of(context).pop();
                                 Navigator.of(context)
-                                    .push(createRoute(AddNotePage()));
+                                    .push(createRoute(AddNotePage(
+                                  album: widget.dataId,
+                                  location: controller.text,
+                                )));
                               },
                               child: Center(
                                 child: Icon(Icons.add, color: Colors.white),

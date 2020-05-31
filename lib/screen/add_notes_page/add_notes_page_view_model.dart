@@ -17,7 +17,7 @@ abstract class AddNotePageViewModel extends State<AddNotePage> {
   TextEditingController titleController = TextEditingController();
 
   NotusDocument loadDocument() {
-    final Delta delta = Delta()..insert("dasdsadsa\n");
+    final Delta delta = Delta()..insert(" \n");
     return NotusDocument.fromDelta(delta);
   }
 
@@ -48,14 +48,14 @@ abstract class AddNotePageViewModel extends State<AddNotePage> {
     ).then((_) {
       controller.document.close();
       titleController.clear();
-      Navigator.of(context).pushReplacement(
+      Navigator.of(context).push(
         createRoute(HomePage(index: 0)),
       );
       message("Note Added");
     });
   }
 
-
+ 
   @override
   void dispose() {
     super.dispose();

@@ -265,7 +265,6 @@ abstract class HomePageViewModel extends State<HomePage> {
                                           child: CircularProgressIndicator(),
                                         )),
                               Container(
-                                padding: EdgeInsets.only(top: 10),
                                 decoration: BoxDecoration(
                                   border: Border(
                                     bottom: BorderSide(
@@ -325,6 +324,8 @@ abstract class HomePageViewModel extends State<HomePage> {
                                     location: controller.text,
                                     album: albumValue,
                                   )));
+                                  controller.clear();
+                                  albumValue = null;
                                 }
                               },
                               child: Center(

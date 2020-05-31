@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notesapp/screen/notes_page/widget/list_notes.dart';
+import 'package:notesapp/screen/update_note_page/update_note_page.dart';
+import 'package:notesapp/widgets/page_transition.dart';
 import './notes_page_view_model.dart';
 
 class NotesPageView extends NotesPageViewModel {
@@ -88,7 +90,24 @@ class NotesPageView extends NotesPageViewModel {
                       return Container(
                         child: GestureDetector(
                           onTap: () {
-                            print("das");
+                            setState(() {
+                              idNote = notes[i]['id'];
+                              idAlbum = notes[i]['album'] == null
+                                  ? null
+                                  : notes[i]['album']['_id'];
+                              titleNote = notes[i]['title'];
+                              locationNote = notes[i]['location'];
+                              contentNote = notes[i]['content'];
+                              isFavNote = notes[i]['isFav'];
+                            });
+                            Navigator.of(context).push(createRoute(UpdateNote(
+                              idNote: idNote,
+                              idAlbum: idAlbum,
+                              title: titleNote,
+                              location: locationNote,
+                              content: contentNote,
+                              isFav: isFavNote,
+                            )));
                           },
                           onLongPress: () {
                             setState(() {
@@ -100,11 +119,6 @@ class NotesPageView extends NotesPageViewModel {
                               locationNote = notes[i]['location'];
                               contentNote = notes[i]['content'];
                               isFavNote = notes[i]['isFav'];
-                              print("id : $idNote");
-                              print("idAlbum : $idAlbum");
-                              print("titleNote : $titleNote");
-                              print("locationNote : $locationNote");
-                              print("contentNote : $contentNote");
                             });
                             optionDialog();
                           },

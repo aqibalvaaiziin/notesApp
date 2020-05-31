@@ -55,7 +55,7 @@ class AddNotePageView extends AddNotePageViewModel {
           actions: <Widget>[
             InkWell(
               borderRadius: BorderRadius.circular(50),
-              onTap: () async {
+              onTap: () {
                 saveNote();
               },
               child: Padding(
