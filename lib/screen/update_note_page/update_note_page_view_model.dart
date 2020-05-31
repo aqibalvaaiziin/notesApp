@@ -2,19 +2,31 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:notesapp/providers/providers.dart';
+import 'package:notesapp/redux/action/main_state_action.dart';
+import 'package:notesapp/redux/model/app_state_model.dart';
 import 'package:notesapp/screen/home_page/home_page.dart';
 import 'package:notesapp/widgets/page_transition.dart';
 import 'package:quill_delta/quill_delta.dart';
+import 'package:redux/redux.dart';
 import 'package:zefyr/zefyr.dart';
 import './update_note_page.dart';
 
 abstract class UpdateNoteViewModel extends State<UpdateNote> {
+  Store<AppState> store;
   TextEditingController controllerTitle = TextEditingController();
   ZefyrController controller;
   final FocusNode focusNode = new FocusNode();
   ZefyrMode editing = ZefyrMode.select;
+
+  Future initNotes() async {
+    Providers.getNotes().then((value) {
+      List data = jsonDecode(jsonEncode(value.data));
+      store.dispatch(SetMainState(notes: List.from(data)));
+    }).catchError((err) => print(err.toString()));
+  }
 
   String dopdownValue = "Edit";
   String plainText;
@@ -72,5 +84,9 @@ abstract class UpdateNoteViewModel extends State<UpdateNote> {
     super.initState();
     controllerTitle.text = widget.title;
     controller = ZefyrController(NotusDocument.fromDelta(getDelta()));
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      store = StoreProvider.of<AppState>(context);
+      await initNotes();
+    });
   }
 }

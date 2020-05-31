@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:notesapp/redux/model/app_state_model.dart';
+import 'package:notesapp/redux/model/main_state_model.dart';
 import 'package:notesapp/screen/albums_page/widget/list_albums.dart';
 import 'package:notesapp/screen/detail_album_page/detail_album_page.dart';
 import 'package:notesapp/widgets/page_transition.dart';
@@ -75,33 +78,48 @@ class AlbumsPageView extends AlbumsPageViewModel {
                 ),
               ),
       ),
-      body: albums.length > 0
-          ? Container(
-              child: GridView.count(
-                padding: EdgeInsets.zero,
-                crossAxisCount: 2,
-                children: albums
-                    .map(
-                      (album) => GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(createRoute(DetailAlbum(
-                            dataId: album['id'],
-                            title: album['title'],
-                          )));
-                        },
-                        child: AlbumList(
-                          album['title'],
-                          album['notes'].length,
-                        ),
-                      ),
-                    )
-                    .toList(),
-              ),
-            )
-          : Center(
-              child: CircularProgressIndicator(
-              backgroundColor: Color(0xff2f3542),
-            )),
+      body: StoreConnector<AppState, MainState>(
+        converter: (store) => store.state.mainState,
+        builder: (context, state) {
+          return state.albums.length > 0
+              ? Container(
+                  child: GridView.count(
+                    padding: EdgeInsets.zero,
+                    crossAxisCount: 2,
+                    children: state.albums
+                        .map(
+                          (album) => GestureDetector(
+                            onTap: () {
+                              Navigator.of(context)
+                                  .push(createRoute(DetailAlbum(
+                                dataId: album['id'],
+                                title: album['title'],
+                              )));
+                            },
+                            child: GestureDetector(
+                              onLongPress: () {
+                                optionDialog();
+                                setState(() {
+                                  dataId = album['id'];
+                                  print(dataId);
+                                });
+                              },
+                              child: AlbumList(
+                                album['title'],
+                                album['notes'].length,
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                )
+              : Center(
+                  child: CircularProgressIndicator(
+                  backgroundColor: Color(0xff2f3542),
+                ));
+        },
+      ),
     );
   }
 }

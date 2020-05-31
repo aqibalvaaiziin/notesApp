@@ -57,6 +57,7 @@ class UpdateNoteView extends UpdateNoteViewModel {
               borderRadius: BorderRadius.circular(50),
               onTap: () {
                 btnSave();
+                initNotes();
               },
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 8, horizontal: 15),

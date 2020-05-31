@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:notesapp/redux/model/app_state_model.dart';
+import 'package:notesapp/redux/model/main_state_model.dart';
 import 'package:notesapp/screen/notes_page/widget/list_notes.dart';
 import 'package:notesapp/screen/update_note_page/update_note_page.dart';
 import 'package:notesapp/widgets/page_transition.dart';
@@ -76,75 +79,83 @@ class NotesPageView extends NotesPageViewModel {
               ),
       ),
       body: SingleChildScrollView(
-        child: Container(
-          margin: EdgeInsets.only(bottom: 30),
-          child: Center(
-            child: notes.length > 0
-                ? ListView.builder(
-                    padding: EdgeInsets.zero,
-                    reverse: true,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: notes.length,
-                    itemBuilder: (context, i) {
-                      return Container(
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              idNote = notes[i]['id'];
-                              idAlbum = notes[i]['album'] == null
-                                  ? null
-                                  : notes[i]['album']['_id'];
-                              titleNote = notes[i]['title'];
-                              locationNote = notes[i]['location'];
-                              contentNote = notes[i]['content'];
-                              isFavNote = notes[i]['isFav'];
-                            });
-                            Navigator.of(context).push(createRoute(UpdateNote(
-                              idNote: idNote,
-                              idAlbum: idAlbum,
-                              title: titleNote,
-                              location: locationNote,
-                              content: contentNote,
-                              isFav: isFavNote,
-                            )));
-                          },
-                          onLongPress: () {
-                            setState(() {
-                              idNote = notes[i]['id'];
-                              idAlbum = notes[i]['album'] == null
-                                  ? null
-                                  : notes[i]['album']['_id'];
-                              titleNote = notes[i]['title'];
-                              locationNote = notes[i]['location'];
-                              contentNote = notes[i]['content'];
-                              isFavNote = notes[i]['isFav'];
-                            });
-                            optionDialog();
-                          },
-                          child: NotesList(
-                            id: notes[i]['id'],
-                            title: notes[i]['title'],
-                            location: notes[i]['location'],
-                            content: notes[i]['content'],
-                            createdAt: notes[i]['createdAt'],
-                            isFav: notes[i]['isFav'],
-                            album: notes[i]['album'] != null
-                                ? notes[i]['album']['title']
-                                : "Not Have a Album",
+        child: StoreConnector<AppState, MainState>(
+          converter: (store) => store.state.mainState,
+          builder: (context, state) {
+            return Container(
+              margin: EdgeInsets.only(bottom: 30),
+              child: Center(
+                child: state.notes.length > 0
+                    ? ListView.builder(
+                        padding: EdgeInsets.zero,
+                        reverse: true,
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: state.notes.length,
+                        itemBuilder: (context, i) {
+                          return Container(
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  idNote = state.notes[i]['id'];
+                                  idAlbum = state.notes[i]['album'] == null
+                                      ? null
+                                      : state.notes[i]['album']['_id'];
+                                  titleNote = state.notes[i]['title'];
+                                  locationNote = state.notes[i]['location'];
+                                  contentNote = state.notes[i]['content'];
+                                  isFavNote = state.notes[i]['isFav'];
+                                });
+                                Navigator.of(context)
+                                    .push(createRoute(UpdateNote(
+                                  idNote: idNote,
+                                  idAlbum: idAlbum,
+                                  title: titleNote,
+                                  location: locationNote,
+                                  content: contentNote,
+                                  isFav: isFavNote,
+                                )));
+                              },
+                              onLongPress: () {
+                                setState(() {
+                                  idNote = state.notes[i]['id'];
+                                  idAlbum = state.notes[i]['album'] == null
+                                      ? null
+                                      : state.notes[i]['album']['_id'];
+                                  titleNote = state.notes[i]['title'];
+                                  locationNote = state.notes[i]['location'];
+                                  contentNote = state.notes[i]['content'];
+                                  isFavNote = state.notes[i]['isFav'];
+                                });
+                                optionDialog();
+                              },
+                              child: NotesList(
+                                id: state.notes[i]['id'],
+                                title: state.notes[i]['title'],
+                                location: state.notes[i]['location'],
+                                content: state.notes[i]['content'],
+                                createdAt: state.notes[i]['createdAt'],
+                                isFav: state.notes[i]['isFav'],
+                                album: state.notes[i]['album'] != null
+                                    ? state.notes[i]['album']['title']
+                                    : "Not Have a Album",
+                              ),
+                            ),
+                          );
+                        },
+                      )
+                    : Container(
+                        width: screenSize.width,
+                        height: screenSize.height * 0.7,
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            backgroundColor: Color(0xff2f3542),
                           ),
                         ),
-                      );
-                    },
-                  )
-                : Container(
-                    width: screenSize.width,
-                    height: screenSize.height * 0.7,
-                    child: Center(
-                        child: CircularProgressIndicator(
-                      backgroundColor: Color(0xff2f3542),
-                    ))),
-          ),
+                      ),
+              ),
+            );
+          },
         ),
       ),
     );

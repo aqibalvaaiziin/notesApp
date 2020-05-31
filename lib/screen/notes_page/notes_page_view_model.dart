@@ -1,15 +1,19 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:notesapp/providers/providers.dart';
+import 'package:notesapp/redux/action/main_state_action.dart';
+import 'package:notesapp/redux/model/app_state_model.dart';
 import 'package:notesapp/screen/change_album_page/change_album_page.dart';
 import 'package:notesapp/screen/home_page/home_page.dart';
 import 'package:notesapp/widgets/page_transition.dart';
+import 'package:redux/redux.dart';
 import './notes_page.dart';
 
 abstract class NotesPageViewModel extends State<NotesPage> {
-  List notes = [];
+  Store<AppState> store;
   String idNote;
   String idAlbum;
   String titleNote;
@@ -17,15 +21,11 @@ abstract class NotesPageViewModel extends State<NotesPage> {
   String contentNote;
   bool isFavNote;
 
-  void getNotes() {
+  Future initNotes() async {
     Providers.getNotes().then((value) {
       List data = jsonDecode(jsonEncode(value.data));
-      for (var i = 0; i < data.length; i++) {
-        setState(() {
-          notes.add(data[i]);
-        });
-      }
-    });
+      store.dispatch(SetMainState(notes: List.from(data)));
+    }).catchError((err) => print(err.toString()));
   }
 
   void message(String message) {
@@ -38,6 +38,24 @@ abstract class NotesPageViewModel extends State<NotesPage> {
       textColor: Colors.white,
       fontSize: 16,
     );
+  }
+
+  Future putNoteFav() async {
+    Providers.putNote(
+            idNote, idAlbum, titleNote, locationNote, contentNote, !isFavNote)
+        .then((_) async {
+      message("Note updated");
+      Navigator.of(context).push(createRoute(HomePage(index: 0)));
+    });
+    initNotes();
+  }
+
+  Future removeNote() async {
+    Providers.deleteNote(idNote).then((_) async {
+      message("Note deleted");
+      Navigator.of(context).push(createRoute(HomePage(index: 0)));
+    });
+    initNotes();
   }
 
   Future optionDialog() async {
@@ -129,15 +147,8 @@ abstract class NotesPageViewModel extends State<NotesPage> {
                                           BorderRadius.all(Radius.circular(7)),
                                     ),
                                     child: FlatButton(
-                                        onPressed: () {
-                                          Providers.deleteNote(idNote)
-                                              .then((_) {
-                                            message("Note deleted");
-                                            Navigator.of(context)
-                                                .pushReplacement(
-                                              createRoute(HomePage(index: 0)),
-                                            );
-                                          });
+                                        onPressed: () async {
+                                          await removeNote();
                                         },
                                         child: Row(
                                           mainAxisAlignment:
@@ -179,20 +190,7 @@ abstract class NotesPageViewModel extends State<NotesPage> {
                               ),
                               child: FlatButton(
                                   onPressed: () {
-                                    Providers.putNote(
-                                            idNote,
-                                            idAlbum,
-                                            titleNote,
-                                            locationNote,
-                                            contentNote,
-                                            !isFavNote)
-                                        .then((_) {
-                                      message("Note updated");
-                                      Navigator.of(context)
-                                          .pushReplacement(createRoute(HomePage(
-                                        index: 0,
-                                      )));
-                                    });
+                                    putNoteFav();
                                   },
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -258,6 +256,9 @@ abstract class NotesPageViewModel extends State<NotesPage> {
   @override
   void initState() {
     super.initState();
-    getNotes();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      store = StoreProvider.of<AppState>(context);
+      await initNotes();
+    });
   }
 }

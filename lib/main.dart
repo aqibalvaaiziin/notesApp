@@ -1,30 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:notesapp/redux/model/app_state_model.dart';
+import 'package:notesapp/redux/store.dart';
 import 'package:notesapp/screen/home_page/home_page.dart';
 import 'package:notesapp/widgets/page_transition.dart';
 import 'package:notesapp/widgets/splash_screen.dart';
+import 'package:redux/redux.dart';
 
-void main() {
+void main() async {
+  Store<AppState> _store = await createStore();
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
-    runApp(MyApp());
+    runApp(MyApp(store: _store));
   });
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
- 
+class MyApp extends StatelessWidget {
+  final Store<AppState> store;
+  MyApp({this.store});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SplashPage(),
+    return StoreProvider(
+      store: store,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: SplashPage(),
+      ),
     );
   }
 }
