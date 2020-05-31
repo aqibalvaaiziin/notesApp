@@ -379,6 +379,9 @@ abstract class HomePageViewModel extends State<HomePage> {
   void initState() {
     currentIndex = this.widget.index ?? 0;
     super.initState();
-    initAlbums();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      store = StoreProvider.of<AppState>(context);
+      await initAlbums();
+    });
   }
 }

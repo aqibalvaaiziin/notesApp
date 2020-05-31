@@ -5,6 +5,7 @@ import 'package:notesapp/redux/model/main_state_model.dart';
 import 'package:notesapp/screen/notes_page/widget/list_notes.dart';
 import 'package:notesapp/screen/update_note_page/update_note_page.dart';
 import 'package:notesapp/widgets/page_transition.dart';
+import 'package:notesapp/widgets/shimmer.dart';
 import './notes_page_view_model.dart';
 
 class NotesPageView extends NotesPageViewModel {
@@ -145,12 +146,13 @@ class NotesPageView extends NotesPageViewModel {
                         },
                       )
                     : Container(
-                        width: screenSize.width,
-                        height: screenSize.height * 0.7,
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            backgroundColor: Color(0xff2f3542),
-                          ),
+                        child: Column(
+                          children: <Widget>[
+                            shimmerNote(context),
+                            shimmerNote(context),
+                            shimmerNote(context),
+                            shimmerNote(context),
+                          ],
                         ),
                       ),
               ),

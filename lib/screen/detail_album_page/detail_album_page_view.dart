@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:notesapp/screen/notes_page/widget/list_notes.dart';
 import 'package:notesapp/screen/update_note_page/update_note_page.dart';
 import 'package:notesapp/widgets/page_transition.dart';
+import 'package:notesapp/widgets/shimmer.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import './detail_album_page_view_model.dart';
 
@@ -108,101 +109,127 @@ class DetailAlbumView extends DetailAlbumViewModel {
                               )),
                           content: SingleChildScrollView(
                               child: Container(
-                            margin: EdgeInsets.only(
-                                bottom: screenSize.height * 0.1),
-                            child: showAlbum.length > 0
-                                ? Expanded(
-                                    child: ListView.builder(
-                                        shrinkWrap: true,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        itemCount: showAlbum[0]['notes'].length,
-                                        itemBuilder: (context, i) =>
-                                            GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  idNote = showAlbum[0]['notes']
-                                                      [i]['id'];
-                                                  idAlbum = showAlbum[0]
-                                                                  ['notes'][i]
-                                                              ['album'] ==
-                                                          null
-                                                      ? null
-                                                      : showAlbum[0]['notes'][i]
-                                                          ['album'];
-                                                  titleNote = showAlbum[0]
-                                                      ['notes'][i]['title'];
-                                                  locationNote = showAlbum[0]
-                                                      ['notes'][i]['location'];
-                                                  contentNote = showAlbum[0]
-                                                      ['notes'][i]['content'];
-                                                  isFavNote = showAlbum[0]
-                                                      ['notes'][i]['isFav'];
-                                                });
-                                                print(idNote);
-                                                print(idAlbum);
-                                                print(titleNote);
-                                                print(locationNote);
-                                                print(contentNote);
-                                                print(isFavNote);
-                                                Navigator.of(context).push(
-                                                    createRoute(UpdateNote(
-                                                  idNote: idNote,
-                                                  idAlbum: idAlbum,
-                                                  title: titleNote,
-                                                  location: locationNote,
-                                                  content: contentNote,
-                                                  isFav: isFavNote,
-                                                )));
-                                              },
-                                              onLongPress: () {
-                                                setState(() {
-                                                  idNote = showAlbum[0]['notes']
-                                                      [i]['id'];
-                                                  idAlbum = showAlbum[0]
-                                                                  ['notes'][i]
-                                                              ['album'] ==
-                                                          null
-                                                      ? null
-                                                      : showAlbum[0]['notes'][i]
-                                                          ['album'];
-                                                  titleNote = showAlbum[0]
-                                                      ['notes'][i]['title'];
-                                                  locationNote = showAlbum[0]
-                                                      ['notes'][i]['location'];
-                                                  contentNote = showAlbum[0]
-                                                      ['notes'][i]['content'];
-                                                  isFavNote = showAlbum[0]
-                                                      ['notes'][i]['isFav'];
-                                                  print(idNote);
-                                                  print(idAlbum);
-                                                  print(titleNote);
-                                                  print(locationNote);
-                                                  print(contentNote);
-                                                  print(isFavNote);
-                                                });
-                                                optionDialog();
-                                              },
-                                              child: NotesList(
-                                                id: showAlbum[0]['notes'][i]
-                                                    ['id'],
-                                                content: showAlbum[0]['notes']
-                                                    [i]['content'],
-                                                title: showAlbum[0]['notes'][i]
-                                                    ['title'],
-                                                isFav: showAlbum[0]['notes'][i]
-                                                    ['isFav'],
-                                                createdAt: showAlbum[0]['notes']
-                                                    [i]['createdAt'],
-                                                location: showAlbum[0]['notes']
-                                                    [i]['location'],
-                                                album: showAlbum[0]['title'],
-                                              ),
-                                            )),
-                                  )
-                                : Center(
-                                    child: Text("Note is not available!"),
-                                  ),
-                          )),
+                                  margin: EdgeInsets.only(
+                                      bottom: screenSize.height * 0.1),
+                                  child: showAlbum.length > 0
+                                      ? Expanded(
+                                          child: ListView.builder(
+                                              shrinkWrap: true,
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
+                                              itemCount:
+                                                  showAlbum[0]['notes'].length,
+                                              itemBuilder: (context, i) =>
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        idNote = showAlbum[0]
+                                                            ['notes'][i]['id'];
+                                                        idAlbum = showAlbum[0][
+                                                                        'notes'][i]
+                                                                    ['album'] ==
+                                                                null
+                                                            ? null
+                                                            : showAlbum[0]
+                                                                    ['notes'][i]
+                                                                ['album'];
+                                                        titleNote = showAlbum[0]
+                                                                ['notes'][i]
+                                                            ['title'];
+                                                        locationNote =
+                                                            showAlbum[0]
+                                                                    ['notes'][i]
+                                                                ['location'];
+                                                        contentNote =
+                                                            showAlbum[0]
+                                                                    ['notes'][i]
+                                                                ['content'];
+                                                        isFavNote = showAlbum[0]
+                                                                ['notes'][i]
+                                                            ['isFav'];
+                                                      });
+                                                      print(idNote);
+                                                      print(idAlbum);
+                                                      print(titleNote);
+                                                      print(locationNote);
+                                                      print(contentNote);
+                                                      print(isFavNote);
+                                                      Navigator.of(context)
+                                                          .push(createRoute(
+                                                              UpdateNote(
+                                                        idNote: idNote,
+                                                        idAlbum: idAlbum,
+                                                        title: titleNote,
+                                                        location: locationNote,
+                                                        content: contentNote,
+                                                        isFav: isFavNote,
+                                                      )));
+                                                    },
+                                                    onLongPress: () {
+                                                      setState(() {
+                                                        idNote = showAlbum[0]
+                                                            ['notes'][i]['id'];
+                                                        idAlbum = showAlbum[0][
+                                                                        'notes'][i]
+                                                                    ['album'] ==
+                                                                null
+                                                            ? null
+                                                            : showAlbum[0]
+                                                                    ['notes'][i]
+                                                                ['album'];
+                                                        titleNote = showAlbum[0]
+                                                                ['notes'][i]
+                                                            ['title'];
+                                                        locationNote =
+                                                            showAlbum[0]
+                                                                    ['notes'][i]
+                                                                ['location'];
+                                                        contentNote =
+                                                            showAlbum[0]
+                                                                    ['notes'][i]
+                                                                ['content'];
+                                                        isFavNote = showAlbum[0]
+                                                                ['notes'][i]
+                                                            ['isFav'];
+                                                        print(idNote);
+                                                        print(idAlbum);
+                                                        print(titleNote);
+                                                        print(locationNote);
+                                                        print(contentNote);
+                                                        print(isFavNote);
+                                                      });
+                                                      optionDialog();
+                                                    },
+                                                    child: NotesList(
+                                                      id: showAlbum[0]['notes']
+                                                          [i]['id'],
+                                                      content: showAlbum[0]
+                                                              ['notes'][i]
+                                                          ['content'],
+                                                      title: showAlbum[0]
+                                                          ['notes'][i]['title'],
+                                                      isFav: showAlbum[0]
+                                                          ['notes'][i]['isFav'],
+                                                      createdAt: showAlbum[0]
+                                                              ['notes'][i]
+                                                          ['createdAt'],
+                                                      location: showAlbum[0]
+                                                              ['notes'][i]
+                                                          ['location'],
+                                                      album: showAlbum[0]
+                                                          ['title'],
+                                                    ),
+                                                  )),
+                                        )
+                                      : Container(
+                                          child: Column(
+                                            children: <Widget>[
+                                              shimmerNote(context),
+                                              shimmerNote(context),
+                                              shimmerNote(context),
+                                            ],
+                                          ),
+                                        ))),
                         ),
                       ),
                     ],

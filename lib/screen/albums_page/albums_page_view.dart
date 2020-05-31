@@ -5,6 +5,7 @@ import 'package:notesapp/redux/model/main_state_model.dart';
 import 'package:notesapp/screen/albums_page/widget/list_albums.dart';
 import 'package:notesapp/screen/detail_album_page/detail_album_page.dart';
 import 'package:notesapp/widgets/page_transition.dart';
+import 'package:notesapp/widgets/shimmer.dart';
 import './albums_page_view_model.dart';
 
 class AlbumsPageView extends AlbumsPageViewModel {
@@ -114,10 +115,21 @@ class AlbumsPageView extends AlbumsPageViewModel {
                         .toList(),
                   ),
                 )
-              : Center(
-                  child: CircularProgressIndicator(
-                  backgroundColor: Color(0xff2f3542),
-                ));
+              : Container(
+                  width: screenSize.width,
+                  child: Wrap(
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: <Widget>[
+                      shimmerAlbums(context),
+                      shimmerAlbums(context),
+                      shimmerAlbums(context),
+                      shimmerAlbums(context),
+                      shimmerAlbums(context),
+                      shimmerAlbums(context),
+                    ],
+                  ),
+                );
         },
       ),
     );
