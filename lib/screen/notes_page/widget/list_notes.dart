@@ -173,16 +173,17 @@ class _NotesListState extends State<NotesList> {
                         flex: 8,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Container(
                               width: screenSize.width,
                               child: Text(
-                                widget.title,
+                                widget.title.toUpperCase(),
                                 maxLines: 1,
                                 style: TextStyle(
                                     fontFamily: "F",
                                     fontWeight: FontWeight.w600,
-                                    fontSize: 17),
+                                    fontSize: 14),
                               ),
                             ),
                             SizedBox(
@@ -191,7 +192,7 @@ class _NotesListState extends State<NotesList> {
                             Container(
                               child: Text(
                                 bodyContent,
-                                maxLines: 3,
+                                maxLines: 2,
                                 style: TextStyle(fontSize: 12),
                               ),
                             ),

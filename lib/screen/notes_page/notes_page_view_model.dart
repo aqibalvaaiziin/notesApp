@@ -172,7 +172,7 @@ abstract class NotesPageViewModel extends State<NotesPage> {
                                   : screenSize.width * 0.35,
                               decoration: BoxDecoration(
                                 color: isFavNote
-                                    ? Colors.orange[700]
+                                    ? Color(0xfffa920a)
                                     : Colors.green,
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(7)),

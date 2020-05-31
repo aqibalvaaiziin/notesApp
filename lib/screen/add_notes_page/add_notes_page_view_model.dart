@@ -17,7 +17,7 @@ abstract class AddNotePageViewModel extends State<AddNotePage> {
   TextEditingController titleController = TextEditingController();
 
   NotusDocument loadDocument() {
-    final Delta delta = Delta()..insert(" \n");
+    final Delta delta = Delta()..insert("\n");
     return NotusDocument.fromDelta(delta);
   }
 
