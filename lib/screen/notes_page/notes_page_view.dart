@@ -152,6 +152,8 @@ class NotesPageView extends NotesPageViewModel {
                             shimmerNote(context),
                             shimmerNote(context),
                             shimmerNote(context),
+                            shimmerNote(context),
+                            shimmerNote(context),
                           ],
                         ),
                       ),
